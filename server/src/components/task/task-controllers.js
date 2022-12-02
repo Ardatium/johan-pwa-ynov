@@ -43,8 +43,9 @@ export async function update (ctx) {
     try {
         console.log(ctx.request.body)
         const taskValidationSchema = Joi.object({
-            title: Joi.string().required(),
+            title: Joi.string(),
             description: Joi.string(),
+            list: Joi.string(),
             status: Joi.boolean()
         })
 
@@ -53,12 +54,12 @@ export async function update (ctx) {
         console.log('No error found continuing the process', value);
         // deux manières de faire
         //***** premiere option *****//
-        // const task = await Task.findById(ctx.params.id)
-        // task.set(value)
-        // await task.save();
+        //const task = await Task.findById(ctx.params.id)
+        //task.set(value)
+        //await task.save();
 
         //***** seconde option *****//
-        const task = await Task.findById(ctx.params.id, value, { runValidators: true, new: true})
+        const task = await Task.findByIdAndUpdate(ctx.params.id, value, { runValidators: true, new: true})
 
         ctx.ok(task)
     } catch(e) {

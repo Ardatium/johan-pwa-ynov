@@ -89,6 +89,8 @@ module.exports = configure(function (ctx) {
 
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-framework
     framework: {
+      // optional if you want to use
+      // directive `v-close-overlay`
       config: {},
 
       // iconSet: 'material-icons', // Quasar icon set

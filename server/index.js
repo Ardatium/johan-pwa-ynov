@@ -5,12 +5,15 @@ import Router from '@koa/router';
 import bodyParser from 'koa-bodyparser';
 import respond from 'koa-respond'
 import serve from 'koa-static';
+import cors from '@koa/cors'
+
 
 
 
 const app = new Koa();
 
-app.use(serve('./public'))
+app.use(cors('*'))
+.use(serve('./public'))
 .use(bodyParser())
 .use(respond())
 .use(API_V1_ROUTER.routes())

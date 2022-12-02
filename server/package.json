@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Ardatium/johan-pwa-ynov#readme",
   "dependencies": {
+    "@koa/cors": "^4.0.0",
     "@koa/router": "^12.0.0",
     "dotenv": "^16.0.3",
     "joi": "^17.7.0",
