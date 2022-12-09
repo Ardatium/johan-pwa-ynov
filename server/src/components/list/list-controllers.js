@@ -55,9 +55,9 @@ export async function update (ctx) {
         // await list.save();
 
         //***** seconde option *****//
-        const list = await list.findById(ctx.params.id, value, { runValidators: true, new: true})
+        const lists = await list.findById(ctx.params.id, value, { runValidators: true, new: true})
 
-        ctx.ok(list)
+        ctx.ok(lists)
     } catch(e) {
         ctx.badRequest({ message: e.message })
     }
@@ -65,11 +65,8 @@ export async function update (ctx) {
 
 export async function del (ctx) {
     try {
-        if(error) throw new Error(error)
-        console.log('No error found continuing the process', value);
-        //***** seconde option *****//
-        const list = await list.findByIdAndDelete(ctx.params.id)
-        ctx.ok(list)
+        const lists = await list.findByIdAndDelete(ctx.params.id)
+        ctx.ok(lists)
     } catch(e) {
         ctx.badRequest({ message: e.message })
     }

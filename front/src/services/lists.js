@@ -8,3 +8,6 @@ export function createList (listName) {
     title: listName
   })
 }
+export function deleteList (listId) {
+  return api.delete(`/lists/${listId}`)
+}

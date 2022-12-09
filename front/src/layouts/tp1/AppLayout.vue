@@ -26,7 +26,7 @@
         <q-card-actions align="center">
           <q-btn
             unelevated label="Créer" color="primary" v-close-popup
-            @click="createList(listName)"/>
+            @click="appStore.handleCreateList(listName)"/>
           <q-btn flat label="Annuler" color="" @click="addListModalToggle" />
         </q-card-actions>
       </q-card>
@@ -60,6 +60,17 @@
     </q-page-container>
   </q-layout>
 </template>
+<script setup>
+import { ref } from 'vue'
+import { useAppStore } from '../../stores/tp1/app-store'
+
+const addListModalOpen = ref(false)
+const appStore = useAppStore()
+
+function addListModalToggle () {
+  addListModalOpen.value = !addListModalOpen.value
+}
+</script>
 <style scoped>
   .title{
     color: black;
@@ -73,12 +84,3 @@
     box-shadow: 0px -2px 10px rgba(0,0,0,1);
   }
 </style>
-<script setup>
-import { ref } from 'vue'
-import { createList } from '../../services/lists'
-const addListModalOpen = ref(false)
-
-function addListModalToggle () {
-  addListModalOpen.value = !addListModalOpen.value
-}
-</script>

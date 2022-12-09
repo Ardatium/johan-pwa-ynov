@@ -4,14 +4,11 @@
   </div>
 </template>
 <script setup>
+import { computed } from 'vue'
 import appList from 'components/tp1/AppList.vue'
-import { getAllLists } from '../../services/lists'
-import { ref } from 'vue'
+import { useAppStore } from '../../stores/tp1/app-store'
 
-const lists = ref([]);
-
-(async () => {
-  const { data } = await getAllLists()
-  lists.value = data
-})()
+const appStore = useAppStore()
+appStore.loadLists()
+const lists = computed(() => appStore.lists)
 </script>
