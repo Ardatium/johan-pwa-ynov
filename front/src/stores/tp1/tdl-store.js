@@ -1,12 +1,15 @@
 import { defineStore } from 'pinia'
 import { Notify } from 'quasar'
-import { getAllLists, createList, deleteList } from '../../services/lists'
-import { getAllTasks, createTask, changeStatus, deleteTask } from 'src/services/tasks'
+import { getAllLists, createList, deleteList, getList } from '../../services/tp1/lists'
+import { getAllTasks, createTask, changeStatus, deleteTask, getTask } from 'src/services/tp1/tasks'
+import { ref } from 'vue'
 
 export const useAppStore = defineStore('appstore', {
   state: () => ({
     lists: [],
-    tasks: []
+    tasks: [],
+    currentList: ref(),
+    currentTask: ref()
   }),
   actions: {
     async loadLists () {
@@ -58,10 +61,10 @@ export const useAppStore = defineStore('appstore', {
         throw new Error(error)
       }
     },
-    async handleDeleteTask (taskId) {
+    async handleDeleteTask (task) {
       try {
         console.log('Deleting list...')
-        await deleteTask(taskId)
+        await deleteTask(task)
         this.loadTasks()
       } catch (error) {
         throw new Error(error)
@@ -73,6 +76,28 @@ export const useAppStore = defineStore('appstore', {
         this.loadTasks()
       } catch (error) {
         throw new Error(error)
+      }
+    },
+    async loadListFromId (id) {
+      try {
+        const { data } = await getList(id)
+        this.currentList = data
+      } catch (error) {
+        Notify.create({
+          message: 'Error while loading lists',
+          type: 'negative'
+        })
+      }
+    },
+    async loadTaskFromId (id) {
+      try {
+        const { data } = await getTask(id)
+        this.currentTask = data
+      } catch (error) {
+        Notify.create({
+          message: 'Error while loading lists',
+          type: 'negative'
+        })
       }
     }
   }

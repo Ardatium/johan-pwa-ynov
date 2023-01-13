@@ -59,7 +59,7 @@ export async function update (ctx) {
         //await task.save();
 
         //***** seconde option *****//
-        const task = await Task.findByIdAndUpdate(ctx.params.id, value, { runValidators: true, new: true})
+        const task = await Task.findByIdAndUpdate(ctx.params.id, value, { runValidators: true, new: true })
 
         ctx.ok(task)
     } catch(e) {
@@ -69,11 +69,26 @@ export async function update (ctx) {
 
 export async function del (ctx) {
     try {
-        if(error) throw new Error(error)
-        console.log('No error found continuing the process', value);
-        //***** seconde option *****//
         const task = await Task.findByIdAndDelete(ctx.params.id)
         ctx.ok(task)
+    } catch(e) {
+        ctx.badRequest({ message: e.message })
+    }
+}
+export async function list (ctx) {
+    try {
+        let query = {list: ctx.params.id}
+        const tasks = await Task.find(query)
+        ctx.ok(tasks)
+    } catch(e) {
+        ctx.badRequest({ message: e.message })
+    }
+}
+export async function validated (ctx) {
+    try {
+        let query = {list: ctx.params.id, status: ctx.params.status}
+        const tasks = await Task.find(query)
+        ctx.ok(tasks)
     } catch(e) {
         ctx.badRequest({ message: e.message })
     }

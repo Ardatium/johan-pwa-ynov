@@ -6,7 +6,7 @@
 <script setup>
 import { computed } from 'vue'
 import appList from 'components/tp1/AppList.vue'
-import { useAppStore } from '../../stores/tp1/app-store'
+import { useAppStore } from '../../stores/tp1/tdl-store'
 
 const appStore = useAppStore()
 appStore.loadLists()

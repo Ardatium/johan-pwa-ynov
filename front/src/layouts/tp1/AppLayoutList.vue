@@ -3,7 +3,8 @@
     <q-header elevated class="app-header">
       <q-toolbar>
         <q-toolbar-title class="title">
-          Dashboard
+          <q-icon name="back-arrow" size="xl" @click="backToDashboard"/>
+          Liste
         </q-toolbar-title>
         <q-avatar
           v-for="size in ['xl']"
@@ -15,22 +16,23 @@
         />
       </q-toolbar>
     </q-header>
-    <q-dialog v-model="addListModalOpen">
-      <q-card>
-        <q-card-section>
-          <div class="text-h6" align="center">Créer une nouvelle liste</div>
-        </q-card-section>
-        <q-card-section class="q-pt-none">
-          <q-input filled v-model="listName" label="Nouvelle liste" placeholder="Ex: Films à voir" />
-        </q-card-section>
-        <q-card-actions align="center">
-          <q-btn
-            unelevated label="Créer" color="primary" v-close-popup
-            @click="appStore.handleCreateList(listName)"/>
-          <q-btn flat label="Annuler" color="" @click="addListModalToggle" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+    <q-dialog v-model="addTaskModalOpen">
+    <q-card>
+      <q-card-section>
+        <div class="text-h6" align="center">Créer une nouvelle tache</div>
+      </q-card-section>
+      <q-card-section class="q-pt-none">
+        <q-input filled v-model="taskName" label="Nouvelle tache" placeholder="Ex: Films à voir" />
+        <q-input filled v-model="taskDesc" label="Description" placeholder="Description de la tache..." />
+      </q-card-section>
+      <q-card-actions align="center">
+        <q-btn
+          unelevated label="Créer" color="primary" v-close-popup
+          @click="appStore.handleCreateTask(taskName, taskDesc, listId)"/>
+        <q-btn flat label="Annuler" color="" @click="addTaskModalToggle" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
     <q-footer class="app-footer q-py-sm">
       <div class="flex justify-between">
         <q-btn
@@ -45,7 +47,7 @@
           unelaveted
           text-color="white"
           color="purple"
-          @click="addListModalToggle"
+          @click="addTaskModalToggle"
         />
         <q-btn
           icon="person"
@@ -63,12 +65,17 @@
 <script setup>
 import { ref } from 'vue'
 import { useAppStore } from '../../stores/tp1/tdl-store'
+import { useRouter } from 'vue-router'
 
-const addListModalOpen = ref(false)
+const addTaskModalOpen = ref(false)
 const appStore = useAppStore()
+const routerV = useRouter()
 
-function addListModalToggle () {
-  addListModalOpen.value = !addListModalOpen.value
+function addTaskModalToggle () {
+  addTaskModalOpen.value = !addTaskModalOpen.value
+}
+function backToDashboard () {
+  routerV.replace('/tp1/dashboard')
 }
 </script>
 <style scoped>

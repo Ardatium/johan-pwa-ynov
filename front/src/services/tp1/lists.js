@@ -11,3 +11,6 @@ export function createList (listName) {
 export function deleteList (listId) {
   return api.delete(`/lists/${listId}`)
 }
+export function getList (listId) {
+  return api.get(`/lists/${listId}`)
+}

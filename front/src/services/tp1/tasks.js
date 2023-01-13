@@ -18,3 +18,9 @@ export function changeStatus (task) {
 export function deleteTask (task) {
   return api.delete(`/tasks/${task._id}`)
 }
+export function getTask (taskId) {
+  return api.get(`/tasks/${taskId}`)
+}
+export function getTasksFromList (listId) {
+  return api.get(`/tasks/list/${listId}`)
+}

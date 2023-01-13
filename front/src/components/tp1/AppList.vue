@@ -2,7 +2,10 @@
   <div class="card-list" id="">
     <div class="card-top">
       {{listName}}
-      <q-icon class="list-info" name="menu" size="xs" @click="print"/>
+      <div class="param-list">
+        <q-icon class="list-info" name="menu" size="xs" @click="gotoList(listId)"/>
+        <q-icon name="close" @click="appStore.handleDeleteList(listId)"/>
+      </div>
     </div>
     <div class="card-body">
       <div v-for="(task, index) in tasks" :key="index">
@@ -10,18 +13,21 @@
           <input type="checkbox"
             name={{task._id}}
             v-model="task.status"
-            @click="appStore.handleChangeStatusTask(task._id)"/>
+            @click="appStore.handleChangeStatusTask(task)"/>
           <label for={{task._id}}>{{task.title}}</label>
-          <q-icon class="delete-task" name="close" @click="appStore.handleDeleteTask(task._id)"/>
+          <q-icon class="delete-task" name="close" @click="appStore.handleDeleteTask(task)"/>
         </div>
       </div>
       <q-icon name="add" size="sm" @click="addTaskModalToggle"/>
+    </div>
+    <div class="card-bottom">
+      <div class="goto" @click="gotoList(listId)"> Voir plus </div>
     </div>
   </div>
   <q-dialog v-model="addTaskModalOpen">
     <q-card>
       <q-card-section>
-        <div class="text-h6" align="center">Créer une nouvelle liste</div>
+        <div class="text-h6" align="center">Créer une nouvelle tache</div>
       </q-card-section>
       <q-card-section class="q-pt-none">
         <q-input filled v-model="taskName" label="Nouvelle tache" placeholder="Ex: Films à voir" />
@@ -31,14 +37,16 @@
         <q-btn
           unelevated label="Créer" color="primary" v-close-popup
           @click="appStore.handleCreateTask(taskName, taskDesc, listId)"/>
-        <q-btn flat label="Annuler" color="" @click="addListModalToggle" />
+        <q-btn flat label="Annuler" color="" @click="addTaskModalToggle" />
       </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 <script setup>
+// import router from 'src/router';
 import { ref, computed } from 'vue'
-import { useAppStore } from '../../stores/tp1/app-store'
+import { useAppStore } from '../../stores/tp1/tdl-store'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   id: {
@@ -51,6 +59,8 @@ const props = defineProps({
   }
 })
 
+// const routeV = useRoute()
+const routerV = useRouter()
 const listId = ref(props.id)
 const listName = ref(props.name)
 const addTaskModalOpen = ref(false)
@@ -64,6 +74,10 @@ function isTaskInList (id) {
 }
 function addTaskModalToggle () {
   addTaskModalOpen.value = !addTaskModalOpen.value
+}
+function gotoList (id) {
+  appStore.loadListFromId(listId.value)
+  routerV.replace(`list/${id}`)
 }
 </script>
 <style lang="css" scoped>
@@ -83,6 +97,10 @@ function addTaskModalToggle () {
   }
   .card-item {
     display: flex;
+  }
+  .param-list {
+    margin-top: 0.2em;
+    margin-left: auto;
   }
   .delete-task {
     margin-top: 0.2em;
